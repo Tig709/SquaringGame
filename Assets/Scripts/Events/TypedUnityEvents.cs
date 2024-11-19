@@ -47,6 +47,14 @@ namespace Events
     }
 
     /// <summary>
+    /// One argument -<see cref="UnityEvent"/>, serializable to the inspector.
+    /// </summary>
+    [Serializable]
+    public class StringListEvent : UnityEvent<List<string>>
+    {
+    }
+
+    /// <summary>
     /// One argument char-<see cref="UnityEvent"/>, serializable to the inspector.
     /// </summary>
     [Serializable]
