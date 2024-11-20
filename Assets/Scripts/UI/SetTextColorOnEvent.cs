@@ -3,29 +3,38 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class SetTextColorOnEvent : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private StringListGameEvent eventToSetTextsOn;
-    [SerializeField] private List<TextMeshProUGUI> targetTexts;
-    [SerializeField] private int indexOfColorElement;
-
-    [SerializeField] private List<string> stringsPerColors;
-    [SerializeField] private List<Color> colorsPerStringList;
-
-    private void Awake()
+    /// <summary>
+    /// This script is used to set text color from another text, by determining what color specific strings of a text should be. 
+    /// </summary>
+    public class SetTextColorOnEvent : MonoBehaviour
     {
-        eventToSetTextsOn.AddListener(SetTexts);
-    }
+        [SerializeField] private StringListGameEvent eventToSetTextsOn;
 
-    private void SetTexts(List<string> textsToSet)
-    {
-        for (int i = 0; i < stringsPerColors.Count; i++)
+        [SerializeField] private List<TextMeshProUGUI> targetTexts;
+        [SerializeField] private List<string> stringsPerColors;
+        [SerializeField] private List<Color> colorsPerStringList;
+
+        [SerializeField] private int indexOfColorElement;
+
+        private void Awake()
         {
-            if (textsToSet[indexOfColorElement] == stringsPerColors[i])
+            eventToSetTextsOn.AddListener(SetTexts);
+        }
+
+        /// <summary>
+        /// Set textscolor from string.
+        /// </summary>
+        /// <param name="retrievedTexts">Texts which determine color</param>
+        private void SetTexts(List<string> retrievedTexts)
+        {
+            for (int i = 0; i < stringsPerColors.Count; i++)
             {
-                foreach (TextMeshProUGUI text in targetTexts)
+                if (retrievedTexts[indexOfColorElement] == stringsPerColors[i])
                 {
-                    text.color = colorsPerStringList[i];
+                    foreach (TextMeshProUGUI text in targetTexts)
+                        text.color = colorsPerStringList[i];
                 }
             }
         }

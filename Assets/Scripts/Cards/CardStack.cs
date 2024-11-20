@@ -2,32 +2,45 @@ using Events.GameEvents.Typed;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Utils;
 
-public class CardStack : MonoBehaviour
+namespace Cards
 {
-    [SerializeField] private StringListGameEvent onCardTaken;
-    private Stack<Card> _cards = new();
-
-    void Start()
+    /// <summary>
+    /// Cardstack: Retrieves its children in a stack, which will be the cardstack. Holds functions for cardstack
+    /// </summary>
+    public class CardStack : MonoBehaviour
     {
-        foreach (Card card in gameObject.GetComponentsInChildren<Card>())
-            _cards.Push(card);
+        [SerializeField] private StringListGameEvent onCardTaken;
 
-        OnTakeCard();
-    }
+        private Stack<Card> _cards = new();
 
-    private void OnTakeCard()
-    {
-        if (_cards.Peek() == null)
-            return;
-
-        List<string> listOfTexts = new();
-
-        foreach (TextMeshProUGUI textMeshProUGUI in _cards.Peek().GetComponentsInChildren<TextMeshProUGUI>())
+        private void Start()
         {
-            listOfTexts.Add(textMeshProUGUI.text);
+            foreach (Card card in gameObject.GetComponentsInChildren<Card>())
+                _cards.Push(card);
+
+            //TODO has to go through event
+            OnTakeCard();
         }
 
-        onCardTaken.Invoke(listOfTexts);
+        private void OnTakeCard()
+        {
+            if (_cards.Count == 0 || _cards.Peek() == null)
+                return;
+
+            List<string> listOfTexts = new();
+
+            foreach (TextMeshProUGUI textMeshProUGUI in _cards.Peek().GetComponentsInChildren<TextMeshProUGUI>())
+                listOfTexts.Add(textMeshProUGUI.text);
+
+            onCardTaken.Invoke(listOfTexts);
+        }
+
+        //TODO has to go through event
+        private void ShuffleStack()
+        {
+            _cards.Shuffle();
+        }
     }
 }

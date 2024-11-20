@@ -2,34 +2,42 @@ using Events.GameEvents;
 using System.Collections;
 using UnityEngine;
 
-public class SetActiveOnTime : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private GameEvent eventToStartTimer;
-    [SerializeField] private GameObject objectToSet;
-    [SerializeField] private int time;
-    [SerializeField] private bool setOn;
-    [SerializeField] private bool startTimerOnEvent;
-
-    private void Awake()
+    /// <summary>
+    /// Scripts used to set gameobject active / non-active after time. Timer starts on event or immediately.
+    /// </summary>
+    public class SetActiveOnTime : MonoBehaviour
     {
-        if(startTimerOnEvent)
-            eventToStartTimer.AddListener(StartCountdown);
-    }
+        [SerializeField] private GameEvent eventToStartTimer;
+        [SerializeField] private GameObject objectToSet;
 
-    private void OnEnable()
-    {
-        if(!startTimerOnEvent)
-            StartCountdown();
-    }
+        [SerializeField] private int time;
 
-    private void StartCountdown()
-    {
-        StartCoroutine(Countdown());
-    }
+        [SerializeField] private bool setOn;
+        [SerializeField] private bool startTimerOnEvent;
 
-    private IEnumerator Countdown()
-    {
-        yield return new WaitForSeconds(time);
-        objectToSet.SetActive(setOn);
+        private void Awake()
+        {
+            if (startTimerOnEvent)
+                eventToStartTimer.AddListener(StartCountdown);
+        }
+
+        private void OnEnable()
+        {
+            if (!startTimerOnEvent)
+                StartCountdown();
+        }
+
+        private void StartCountdown()
+        {
+            StartCoroutine(Countdown());
+        }
+
+        private IEnumerator Countdown()
+        {
+            yield return new WaitForSeconds(time);
+            objectToSet.SetActive(setOn);
+        }
     }
 }

@@ -3,22 +3,28 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class SetTextsOnEvent : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private StringListGameEvent eventToSetTextsOn;
-    [SerializeField] private List<TextMeshProUGUI> targetTexts;
-
-    private void Awake()
+    /// <summary>
+    /// Set text(s) on event
+    /// </summary>
+    public class SetTextsOnEvent : MonoBehaviour
     {
-        eventToSetTextsOn.AddListener(SetTexts);
-    }
+        [SerializeField] private StringListGameEvent eventToSetTextsOn;
+        [SerializeField] private List<TextMeshProUGUI> targetTexts;
 
-    private void SetTexts(List<string> textsToSet)
-    {
-        if (targetTexts.Count != textsToSet.Count)
-            return;
+        private void Awake()
+        {
+            eventToSetTextsOn.AddListener(SetTexts);
+        }
 
-        for (int i = 0; i < targetTexts.Count; i++)
-            targetTexts[i].text = textsToSet[i];
+        private void SetTexts(List<string> textsToSet)
+        {
+            if (targetTexts.Count != textsToSet.Count)
+                return;
+
+            for (int i = 0; i < targetTexts.Count; i++)
+                targetTexts[i].text = textsToSet[i];
+        }
     }
 }
