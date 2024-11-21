@@ -26,14 +26,14 @@ namespace UI.PlayerScreen
         /// <summary>
         /// Retrieves object to invoke, also checks in children
         /// </summary>
-        /// <param name="object">the object to invoke</param>
-        private void RetrieveObjectToInvoke(GameObject @object)
+        /// <param name="retrievedObject">the object to invoke</param>
+        private void RetrieveObjectToInvoke(GameObject retrievedObject)
         {
-            if (@object.GetComponent<Button>() == null)
-            {
-                _button = @object.GetComponentInChildren<Button>();
-            }
-            _button = @object.GetComponent<Button>();
+            if (retrievedObject.GetComponent<Button>() == null)
+                _button = retrievedObject.GetComponentInChildren<Button>();
+
+            else
+                _button = retrievedObject.GetComponent<Button>();
         }
     }
 }

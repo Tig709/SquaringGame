@@ -14,15 +14,15 @@ namespace UI.PlayerScreen
 
         private GameObject GetNextActive()
         {
-            foreach (GameObject objectsToSetActive in objectsToSetActive)
+            foreach (GameObject objectToSetActive in objectsToSetActive)
             {
-                if (objectsToSetActive.activeInHierarchy)
+                if (objectToSetActive.activeInHierarchy)
                     continue;
 
                 else
                 {
-                    onNextInListObjectFound.Invoke(objectsToSetActive);
-                    return objectsToSetActive;
+                    onNextInListObjectFound.Invoke(objectToSetActive);
+                    return objectToSetActive;
                 }
             }
             return null;
