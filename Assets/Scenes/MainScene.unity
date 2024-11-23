@@ -555,6 +555,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 289608790}
     m_Modifications:
+    - target: {fileID: 1571927608250875724, guid: 9ffa942173fccce4c86efef2ee8fd98a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2207013700745735257, guid: 9ffa942173fccce4c86efef2ee8fd98a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -655,6 +659,10 @@ PrefabInstance:
     - target: {fileID: 4954798992436201177, guid: 82f5a2475b6bd024185c9e40cc2cd664, type: 3}
       propertyPath: m_Name
       value: SmallPeekedCardUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5214947662073809907, guid: 82f5a2475b6bd024185c9e40cc2cd664, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
