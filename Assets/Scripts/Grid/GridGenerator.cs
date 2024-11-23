@@ -66,7 +66,7 @@ namespace Grid
             {
                 x = x * _gridTileTransform.localScale.x + transform.position.x,
                 y = 0,
-                z = y * _gridTileTransform.localScale.y + transform.position.z
+                z = y * _gridTileTransform.localScale.z + transform.position.z
             };
         }
     }
