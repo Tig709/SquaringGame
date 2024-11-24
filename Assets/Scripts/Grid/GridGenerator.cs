@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Attributes;
+using Events.GameEvents;
 using UnityEngine;
 
 namespace Grid
@@ -16,11 +18,19 @@ namespace Grid
         [Header("Board Design")]
         [SerializeField, Expandable] private GridData gridData;
 
+        [Header("Events")]
+        [SerializeField] private GameEvent OnGridMade;
+
         private Transform _gridTileTransform;
+
+        private List<GameObject> _gridTiles = new List<GameObject>();
+        private List<PlayableTile> _playableTiles = new List<PlayableTile>();
+        public List<GameObject> GridTiles => _gridTiles;
+        public List<PlayableTile> PlayableTiles => _playableTiles;
 
         public Vector3 PlayableStartPosition => GetPositionFromIndex(gridData.PlayableStartIndex);
 
-        public Vector3 PlayableEndPosition => GetPositionFromIndex(gridData.PlayableEndIndex); 
+        public Vector3 PlayableEndPosition => GetPositionFromIndex(gridData.PlayableEndIndex);
 
         private void Awake()
         {
@@ -48,6 +58,13 @@ namespace Grid
                     }
                 }
             }
+            foreach (Transform child in transform)
+            {
+                _gridTiles.Add(child.gameObject);
+                if (child.gameObject.GetComponent<PlayableTile>() != null)
+                    _playableTiles.Add(child.gameObject.GetComponent<PlayableTile>());
+            }
+            OnGridMade.Invoke();
         }
 
         private void CreateTile(int i, int j, MonoBehaviour tile)

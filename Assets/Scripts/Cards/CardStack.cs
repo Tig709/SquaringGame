@@ -12,8 +12,14 @@ namespace Cards
     public class CardStack : MonoBehaviour
     {
         [SerializeField] private StringListGameEvent onCardTaken;
+        [SerializeField] private GameObjectGameEvent emptyTileFound;
 
         private Stack<Card> _cards = new();
+
+        private void Awake()
+        {
+            emptyTileFound.AddListener(LayCardsDownFromStack);
+        }
 
         private void Start()
         {
@@ -24,6 +30,7 @@ namespace Cards
             OnTakeCard();
         }
 
+        //TODO make on peekcard and make new on take function for players to take
         private void OnTakeCard()
         {
             if (_cards.Count == 0 || _cards.Peek() == null)
@@ -41,6 +48,13 @@ namespace Cards
         private void ShuffleStack()
         {
             _cards.Shuffle();
+        }
+
+        private void LayCardsDownFromStack(GameObject tile)
+        {
+            Card thisCard = _cards.Pop();
+            thisCard.transform.SetParent(tile.transform, true);
+            thisCard.transform.SetLocalPositionAndRotation(new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(180, 0, 0)));
         }
     }
 }

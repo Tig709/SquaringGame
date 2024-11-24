@@ -47,3 +47,4 @@ MonoBehaviour:
   playableTile: {fileID: -2135554481931429899, guid: c85b26e70b0fdda43ac945812da8e21e, type: 3}
   notUsedTile: {fileID: -2266087064302545934, guid: aa0c74db5c224ee4db4467edb82bfd08, type: 3}
   gridData: {fileID: 11400000, guid: 166f01cd685a37b41bd376ebcea328d0, type: 2}
+  OnGridMade: {fileID: 11400000, guid: 526257579e4544f4b97d0712f7127cb2, type: 2}

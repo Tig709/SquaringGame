@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onCardTaken: {fileID: 11400000, guid: 007bdfdd63b780741a7d3f15ef31f53e, type: 2}
+  emptyTileFound: {fileID: 11400000, guid: 79fd602d4b4904f4cacbe2d5300d1d43, type: 2}
 --- !u!1001 &11775802558278308
 PrefabInstance:
   m_ObjectHideFlags: 0
