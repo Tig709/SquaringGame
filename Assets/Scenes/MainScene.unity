@@ -421,8 +421,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 21, y: 50, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -749,6 +749,10 @@ PrefabInstance:
       propertyPath: gridGenerator
       value: 
       objectReference: {fileID: 731480414}
+    - target: {fileID: 3990276583994952201, guid: 528ff3add0546354d9f35032f9565e59, type: 3}
+      propertyPath: eventToCheckOn
+      value: 
+      objectReference: {fileID: 11400000, guid: a94bc94ff48e7b546a2d9f3cfa01cd98, type: 2}
     - target: {fileID: 4258342784532692851, guid: 528ff3add0546354d9f35032f9565e59, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

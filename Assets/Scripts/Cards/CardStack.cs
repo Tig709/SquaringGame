@@ -54,7 +54,7 @@ namespace Cards
         {
             Card thisCard = _cards.Pop();
             thisCard.transform.SetParent(tile.transform, true);
-            thisCard.transform.SetLocalPositionAndRotation(new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(180, 0, 0)));
+            thisCard.transform.SetLocalPositionAndRotation(new Vector3(0, 0.0001f, 0), Quaternion.Euler(new Vector3(180, 0, 0)));
         }
     }
 }

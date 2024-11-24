@@ -15,15 +15,18 @@ namespace Cards
         [SerializeField] private GameEvent eventToCheckOn;
         [SerializeField] private GameEvent onGridMade;
         [SerializeField] private GameObjectGameEvent emptyTileFound;
+        [SerializeField] private GameEvent onCardClikced;
 
         [Header("GridGenerator")]
         [SerializeField] private GridGenerator gridGenerator;
 
         [Header("Variables")]
-        [SerializeField] private int cardRowSize; 
+        [SerializeField] private int cardRowSize;
 
         private List<PlayableTile> _playableTiles = new();
         private List<PlayableTile> _cornerTiles = new();
+        private List<List<GameObject>> _tiles = new();
+        private static readonly Vector2Int[] Directions = { new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) }; // Up, Down, Left, Right
 
         private void Awake()
         {
@@ -41,8 +44,18 @@ namespace Cards
             for (int i = 0; i < cornerIndexes.Length; i++)
                 _cornerTiles.Add(_playableTiles[cornerIndexes[i]]);
 
+            for (int i = 0; i < cardRowSize; i++)
+            {
+                _tiles.Add(new List<GameObject>());
+                for (int j = 0; j < cardRowSize; j++)
+                {
+                    _tiles[i].Add(gridGenerator.GridTiles[i * cardRowSize + j]);
+                }
+            }
+
             CheckForEmptyTiles();
             SetStartRotations();
+            CanCardBeTurned();
         }
 
         //TODO: Should be invoked at wrong played cards later, make check function if stack has cards
@@ -64,7 +77,66 @@ namespace Cards
         private void SetStartRotations()
         {
             foreach (PlayableTile cornerGridTile in _cornerTiles)
+            {
                 cornerGridTile.transform.localEulerAngles = new Vector3(180, 0, 0);
+                cornerGridTile.GetComponentInChildren<InteractableCard>().TurnedAround = true;
+            }
+        }
+
+        //TODO, invoke after every correct card played!
+        /// <summary>
+        /// Checks if card can be turned by checking if it has at least 1 neighbour
+        /// </summary>
+        private void CanCardBeTurned()
+        {
+            // Cache InteractableCard components for all tiles
+            InteractableCard[,] cardGrid = new InteractableCard[cardRowSize, cardRowSize];
+            for (int i = 0; i < cardRowSize; i++)
+            {
+                for (int j = 0; j < cardRowSize; j++)
+                {
+                    cardGrid[i, j] = _tiles[i][j].GetComponentInChildren<InteractableCard>();
+                }
+            }
+
+            //CheckNeighbours
+            for (int i = 0; i < cardRowSize; i++)
+            {
+                for (int j = 0; j < cardRowSize; j++)
+                {
+                    InteractableCard card = cardGrid[i, j];
+                    if (card == null)
+                        continue;
+
+                    int neighbourCount = 0;
+
+                    foreach (var direction in Directions)
+                    {
+                        InteractableCard neighbourCard = CheckDirection(cardGrid, i + direction.x, j + direction.y);
+                        if (neighbourCard != null && neighbourCard.TurnedAround)
+                            neighbourCount++;
+                    }
+
+                    card.HasNeighbour = neighbourCount >= 1; //TODO For now, change later for 2 or more active neigbours
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks if a neighboring tile exists in the given direction and returns its InteractableCard component.
+        /// </summary>
+        /// <param name="cardGrid">2D array of cached InteractableCard components.</param>
+        /// <param name="row">Row index of the neighboring tile.</param>
+        /// <param name="col">Column index of the neighboring tile.</param>
+        /// <returns>The neighboring tile's InteractableCard component, or null if out of bounds or empty.</returns>
+        private InteractableCard CheckDirection(InteractableCard[,] cardGrid, int row, int col)
+        {
+            if (row < 0 || row >= cardRowSize || col < 0 || col >= cardRowSize)
+            {
+                return null;
+            }
+
+            return cardGrid[row, col];
         }
     }
 }
