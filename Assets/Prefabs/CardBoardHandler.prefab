@@ -47,5 +47,6 @@ MonoBehaviour:
   eventToCheckOn: {fileID: 11400000, guid: a94bc94ff48e7b546a2d9f3cfa01cd98, type: 2}
   onGridMade: {fileID: 11400000, guid: 526257579e4544f4b97d0712f7127cb2, type: 2}
   emptyTileFound: {fileID: 11400000, guid: 79fd602d4b4904f4cacbe2d5300d1d43, type: 2}
+  onCardClikced: {fileID: 0}
   gridGenerator: {fileID: 0}
   cardRowSize: 7

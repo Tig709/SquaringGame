@@ -15,7 +15,7 @@ namespace Cards
         [SerializeField] private GameEvent eventToCheckOn;
         [SerializeField] private GameEvent onGridMade;
         [SerializeField] private GameObjectGameEvent emptyTileFound;
-        [SerializeField] private GameEvent onCardClikced;
+        [SerializeField] private GameEvent onCardClicked;
 
         [Header("GridGenerator")]
         [SerializeField] private GridGenerator gridGenerator;

@@ -1,6 +1,5 @@
 using Events.GameEvents.Typed;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using Utils;
 
@@ -11,7 +10,6 @@ namespace Cards
     /// </summary>
     public class CardStack : MonoBehaviour
     {
-        [SerializeField] private StringListGameEvent onCardTaken;
         [SerializeField] private GameObjectGameEvent emptyTileFound;
 
         private Stack<Card> _cards = new();
@@ -25,23 +23,6 @@ namespace Cards
         {
             foreach (Card card in gameObject.GetComponentsInChildren<Card>())
                 _cards.Push(card);
-
-            //TODO has to go through event
-            OnTakeCard();
-        }
-
-        //TODO make on peekcard and make new on take function for players to take
-        private void OnTakeCard()
-        {
-            if (_cards.Count == 0 || _cards.Peek() == null)
-                return;
-
-            List<string> listOfTexts = new();
-
-            foreach (TextMeshProUGUI textMeshProUGUI in _cards.Peek().GetComponentsInChildren<TextMeshProUGUI>())
-                listOfTexts.Add(textMeshProUGUI.text);
-
-            onCardTaken.Invoke(listOfTexts);
         }
 
         //TODO has to go through event
@@ -50,6 +31,7 @@ namespace Cards
             _cards.Shuffle();
         }
 
+        //TODO check if cardstack empty
         private void LayCardsDownFromStack(GameObject tile)
         {
             Card thisCard = _cards.Pop();
