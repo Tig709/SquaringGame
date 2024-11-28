@@ -138,6 +138,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7c4fab561883e49a078841bcbf61e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCardClickedEvent: {fileID: 11400000, guid: a4c1246f68cf9994eb4af903d9dfd154, type: 2}
+  onCardTurned:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4658724685637208113
 GameObject:
   m_ObjectHideFlags: 0

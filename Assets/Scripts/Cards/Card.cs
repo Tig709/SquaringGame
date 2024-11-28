@@ -42,7 +42,9 @@ namespace Cards
         private Color _textColor;
         private string _number;
         private string _symbol;
+        private int _value;
         public string Number => _number;
+        public int Value => _value;
         public string Symbol => _symbol;
 
         /// <summary>
@@ -76,42 +78,55 @@ namespace Cards
             {
                 case AllowedNumbers.Two:
                     _number = "2";
+                    _value = 2;
                     break;
                 case AllowedNumbers.Three:
                     _number = "3";
+                    _value = 3;
                     break;
                 case AllowedNumbers.Four:
                     _number = "4";
+                    _value = 4;
                     break;
                 case AllowedNumbers.Five:
                     _number = "5";
+                    _value = 5;
                     break;
                 case AllowedNumbers.Six:
                     _number = "6";
+                    _value = 6;
                     break;
                 case AllowedNumbers.Seven:
                     _number = "7";
+                    _value = 7;
                     break;
                 case AllowedNumbers.Eight:
                     _number = "8";
+                    _value = 8;
                     break;
                 case AllowedNumbers.Nine:
                     _number = "9";
+                    _value = 9;
                     break;
                 case AllowedNumbers.Ten:
                     _number = "10";
+                    _value = 10;
                     break;
                 case AllowedNumbers.Jack:
                     _number = "J";
+                    _value = 11;
                     break;
                 case AllowedNumbers.Queen:
                     _number = "Q";
+                    _value = 12;
                     break;
                 case AllowedNumbers.King:
                     _number = "K";
+                    _value = 13;
                     break;
                 case AllowedNumbers.Ace:
                     _number = "A";
+                    _value = 14;
                     break;
             }
 

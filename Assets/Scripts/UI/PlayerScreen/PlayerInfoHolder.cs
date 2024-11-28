@@ -2,7 +2,7 @@ using Events.GameEvents.Typed;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UI
+namespace UI.PlayerScreen
 {
     /// <summary>
     /// Holds names for players, carries over through scenes

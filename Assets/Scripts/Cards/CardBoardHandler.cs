@@ -14,8 +14,10 @@ namespace Cards
         [Header("Events")]
         [SerializeField] private GameEvent eventToCheckOn;
         [SerializeField] private GameEvent onGridMade;
+        [SerializeField] private GameEvent onHigherButtonClicked;
+        [SerializeField] private GameEvent onLowerButtonClicked;
         [SerializeField] private GameObjectGameEvent emptyTileFound;
-        [SerializeField] private GameEvent onCardClicked;
+        [SerializeField] private GameObjectGameEvent onCardClicked;
 
         [Header("GridGenerator")]
         [SerializeField] private GridGenerator gridGenerator;
@@ -27,11 +29,15 @@ namespace Cards
         private List<PlayableTile> _cornerTiles = new();
         private List<List<GameObject>> _tiles = new();
         private static readonly Vector2Int[] Directions = { new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) }; // Up, Down, Left, Right
+        private GameObject _clickedCard;
 
         private void Awake()
         {
             eventToCheckOn.AddListener(CheckForEmptyTiles);
             onGridMade.AddListener(MakeStartingBoard);
+            onCardClicked.AddListener(SaveClickedCard);
+            onHigherButtonClicked.AddListener(CheckHigher);
+            onLowerButtonClicked.AddListener(CheckLower);
         }
 
         /// <summary>
@@ -83,7 +89,7 @@ namespace Cards
             }
         }
 
-        //TODO, invoke after every correct card played!
+        //TODO, invoke after every card played!
         /// <summary>
         /// Checks if card can be turned by checking if it has at least 1 neighbour
         /// </summary>
@@ -117,7 +123,7 @@ namespace Cards
                             neighbourCount++;
                     }
 
-                    card.HasNeighbour = neighbourCount >= 1; //TODO For now, change later for 2 or more active neigbours
+                    card.HasNeighbour = neighbourCount >= 1; //TODO For now, change later for 2 or more active neigbours (change to int, hasNeigbour to amountNeighbour
                 }
             }
         }
@@ -137,6 +143,91 @@ namespace Cards
             }
 
             return cardGrid[row, col];
+        }
+
+        private void SaveClickedCard(GameObject card)
+        {
+            _clickedCard = card;
+        }
+
+        //Make func for gettingneighbours because is written twice now (also above)
+        private void CheckHigher()
+        {
+            CardComparison(true);
+        }
+
+        private void CheckLower()
+        {
+            CardComparison(false);
+        }
+
+        private void CardComparison(bool isHigher)
+        {
+            int i = GetCardIndex(_clickedCard);
+            List<int> neighbours = GetNeighbours(i);
+            int cardVal = GetCardValue(i);
+            List<int> nCardVals = new List<int>();
+            foreach (int j in neighbours)
+            {
+                nCardVals.Add(GetCardValue(j));
+            }
+            if (nCardVals.Count == 1)
+            {
+                if ((isHigher && nCardVals[0] <= cardVal) || (!isHigher && nCardVals[0] >= cardVal))
+                    Debug.Log("Right aNswer");
+
+                else
+                    Debug.Log("Wrong aNswer");
+            }
+            else
+            {
+                Debug.Log("Multiple N");//TODO will be checked on earlier and seperated in other functions,atm there are checks if a card has multiple variabls. function for inbetween outside H/L seperated, inbetween outside knoppen maken
+            }
+        }
+        private int GetCardIndex(GameObject card)
+        {
+            for (int i = 0; i < _tiles.Count; i++)
+            {
+                for (int j = 0; j < _tiles[i].Count; j++)
+                {
+                    if (_tiles[i][j].GetComponentInChildren<Card>() != null && card == _tiles[i][j].GetComponentInChildren<Card>().gameObject)
+                    {
+                        return i * cardRowSize + j;
+                    }
+                }
+            }
+            return 0;
+        }
+
+        private int GetCardValue(int cardIndex)
+        {
+            Card card = _tiles[cardIndex / cardRowSize][cardIndex % cardRowSize].GetComponentInChildren<Card>();
+
+            return card.Value;
+        }
+
+        private List<int> GetNeighbours(int i)
+        {
+            List<int> neighbours = new List<int>();
+
+            int row = i / cardRowSize;
+            int col = i % cardRowSize;
+
+            foreach (var direction in Directions)
+            {
+                int neighbourRow = row + direction.x;
+                int neighbourCol = col + direction.y;
+
+                if (neighbourRow >= 0 && neighbourRow < cardRowSize && neighbourCol >= 0 && neighbourCol < cardRowSize)
+                {
+                    InteractableCard neighbourCard = _tiles[neighbourRow][neighbourCol].GetComponentInChildren<InteractableCard>();
+
+                    if (neighbourCard != null && neighbourCard.TurnedAround)
+                        neighbours.Add(neighbourRow * cardRowSize + neighbourCol);
+                }
+            }
+
+            return neighbours;
         }
     }
 }
