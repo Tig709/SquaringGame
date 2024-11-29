@@ -16,6 +16,8 @@ namespace Cards
         [SerializeField] private GameEvent onGridMade;
         [SerializeField] private GameEvent onHigherButtonClicked;
         [SerializeField] private GameEvent onLowerButtonClicked;
+        [SerializeField] private GameEvent onInbetweenButtonClicked;
+        [SerializeField] private GameEvent onOutsideButtonClicked;
         [SerializeField] private GameObjectGameEvent emptyTileFound;
         [SerializeField] private GameObjectGameEvent onCardClicked;
 
@@ -38,6 +40,8 @@ namespace Cards
             onCardClicked.AddListener(SaveClickedCard);
             onHigherButtonClicked.AddListener(CheckHigher);
             onLowerButtonClicked.AddListener(CheckLower);
+            onInbetweenButtonClicked.AddListener(CheckInbetween);
+            onOutsideButtonClicked.AddListener(CheckOutside);
         }
 
         /// <summary>
@@ -123,7 +127,7 @@ namespace Cards
                             neighbourCount++;
                     }
 
-                    card.HasNeighbour = neighbourCount >= 1; //TODO For now, change later for 2 or more active neigbours (change to int, hasNeigbour to amountNeighbour
+                    card.NeighbourCount = neighbourCount;
                 }
             }
         }
@@ -133,16 +137,16 @@ namespace Cards
         /// </summary>
         /// <param name="cardGrid">2D array of cached InteractableCard components.</param>
         /// <param name="row">Row index of the neighboring tile.</param>
-        /// <param name="col">Column index of the neighboring tile.</param>
+        /// <param name="column">Column index of the neighboring tile.</param>
         /// <returns>The neighboring tile's InteractableCard component, or null if out of bounds or empty.</returns>
-        private InteractableCard CheckDirection(InteractableCard[,] cardGrid, int row, int col)
+        private InteractableCard CheckDirection(InteractableCard[,] cardGrid, int row, int column)
         {
-            if (row < 0 || row >= cardRowSize || col < 0 || col >= cardRowSize)
+            if (row < 0 || row >= cardRowSize || column < 0 || column >= cardRowSize)
             {
                 return null;
             }
 
-            return cardGrid[row, col];
+            return cardGrid[row, column];
         }
 
         private void SaveClickedCard(GameObject card)
@@ -150,7 +154,6 @@ namespace Cards
             _clickedCard = card;
         }
 
-        //Make func for gettingneighbours because is written twice now (also above)
         private void CheckHigher()
         {
             CardComparison(true);
@@ -161,27 +164,82 @@ namespace Cards
             CardComparison(false);
         }
 
+        private void CheckInbetween()
+        {
+            CardComparison(false);
+        }
+
+        private void CheckOutside()
+        {
+            CardComparison(true);
+        }
+
         private void CardComparison(bool isHigher)
         {
-            int i = GetCardIndex(_clickedCard);
-            List<int> neighbours = GetNeighbours(i);
-            int cardVal = GetCardValue(i);
-            List<int> nCardVals = new List<int>();
-            foreach (int j in neighbours)
+            List<int> neighbourCardValues = new();
+
+            int clickedCardValue = GetCardValue(GetCardIndex(_clickedCard));
+
+            foreach (int i in GetNeighbours(GetCardIndex(_clickedCard)))
             {
-                nCardVals.Add(GetCardValue(j));
+                neighbourCardValues.Add(GetCardValue(i));
             }
-            if (nCardVals.Count == 1)
+
+                //TODO call interactablecard.turnaround
+            if (neighbourCardValues.Count == 1)
             {
-                if ((isHigher && nCardVals[0] <= cardVal) || (!isHigher && nCardVals[0] >= cardVal))
-                    Debug.Log("Right aNswer");
+                if ((isHigher && neighbourCardValues[0] <= clickedCardValue) || (!isHigher && neighbourCardValues[0] >= clickedCardValue))
+                    Debug.Log("Right answer HL");
 
                 else
-                    Debug.Log("Wrong aNswer");
+                    Debug.Log("Wrong answer HL");
             }
             else
             {
-                Debug.Log("Multiple N");//TODO will be checked on earlier and seperated in other functions,atm there are checks if a card has multiple variabls. function for inbetween outside H/L seperated, inbetween outside knoppen maken
+                List<int> neigboursToCheck = new() { neighbourCardValues[0], neighbourCardValues[1] };
+                if (neighbourCardValues.Count == 3)
+                {
+                    int differenceAB = Mathf.Abs(neighbourCardValues[0] - neighbourCardValues[1]);
+                    int differenceAC = Mathf.Abs(neighbourCardValues[0] - neighbourCardValues[2]);
+                    int differenceBC = Mathf.Abs(neighbourCardValues[1] - neighbourCardValues[2]);
+
+                    int maxDiff = differenceAB;
+                    List<int> maxPairValues = new() { neighbourCardValues[0], neighbourCardValues[1] };
+
+                    int minDiff = differenceAB;
+                    List<int> minPairValues = new() { neighbourCardValues[0], neighbourCardValues[1] };
+
+                    if (differenceAC > maxDiff)
+                    {
+                        maxDiff = differenceAC;
+                        maxPairValues = new List<int> { neighbourCardValues[0], neighbourCardValues[2] };
+                    }
+                    if (differenceBC > maxDiff)
+                    {
+                        maxDiff = differenceBC;
+                        maxPairValues = new List<int> { neighbourCardValues[1], neighbourCardValues[2] };
+                    }
+
+                    if (differenceAC < minDiff)
+                    {
+                        minDiff = differenceAC;
+                        minPairValues = new List<int> { neighbourCardValues[0], neighbourCardValues[2] };
+                    }
+                    if (differenceBC < minDiff)
+                    {
+                        minDiff = differenceBC;
+                        minPairValues = new List<int> { neighbourCardValues[1], neighbourCardValues[2] };
+                    }
+
+                    neigboursToCheck = maxPairValues;
+                    if (maxDiff > minDiff)
+                        neigboursToCheck = minPairValues;
+                }
+
+                if (isHigher && clickedCardValue >= Mathf.Max(neigboursToCheck[0], neigboursToCheck[1]) || isHigher && clickedCardValue <= Mathf.Min(neigboursToCheck[0], neigboursToCheck[1]) || !isHigher && clickedCardValue <= Mathf.Max(neigboursToCheck[0], neigboursToCheck[1]) || !isHigher && clickedCardValue >= Mathf.Min(neigboursToCheck[0], neigboursToCheck[1]))
+                    Debug.Log("right answer IO");
+                else
+                    Debug.Log("Wrong answer IO");
             }
         }
         private int GetCardIndex(GameObject card)
@@ -206,17 +264,17 @@ namespace Cards
             return card.Value;
         }
 
-        private List<int> GetNeighbours(int i)
+        private List<int> GetNeighbours(int cardIndex)
         {
-            List<int> neighbours = new List<int>();
+            List<int> neighbours = new();
 
-            int row = i / cardRowSize;
-            int col = i % cardRowSize;
+            int row = cardIndex / cardRowSize;
+            int column = cardIndex % cardRowSize;
 
             foreach (var direction in Directions)
             {
                 int neighbourRow = row + direction.x;
-                int neighbourCol = col + direction.y;
+                int neighbourCol = column + direction.y;
 
                 if (neighbourRow >= 0 && neighbourRow < cardRowSize && neighbourCol >= 0 && neighbourCol < cardRowSize)
                 {
@@ -226,7 +284,6 @@ namespace Cards
                         neighbours.Add(neighbourRow * cardRowSize + neighbourCol);
                 }
             }
-
             return neighbours;
         }
     }
