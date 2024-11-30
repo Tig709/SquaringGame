@@ -48,7 +48,10 @@ MonoBehaviour:
   onGridMade: {fileID: 11400000, guid: 526257579e4544f4b97d0712f7127cb2, type: 2}
   onHigherButtonClicked: {fileID: 11400000, guid: 0c61fae4b11a35540843d3a0d6c157b2, type: 2}
   onLowerButtonClicked: {fileID: 11400000, guid: 47e97220273c956449e1979173591578, type: 2}
+  onInbetweenButtonClicked: {fileID: 11400000, guid: 8947cfed765e4f842aaca78a79e5253f, type: 2}
+  onOutsideButtonClicked: {fileID: 11400000, guid: 2391b1643d4699b469aac2fe737ade31, type: 2}
   emptyTileFound: {fileID: 11400000, guid: 79fd602d4b4904f4cacbe2d5300d1d43, type: 2}
   onCardClicked: {fileID: 11400000, guid: a4c1246f68cf9994eb4af903d9dfd154, type: 2}
+  sendToDiscardStackEvent: {fileID: 11400000, guid: 6b8b43c3161c374498f2b072db15304a, type: 2}
   gridGenerator: {fileID: 0}
   cardRowSize: 7

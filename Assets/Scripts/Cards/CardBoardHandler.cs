@@ -20,6 +20,7 @@ namespace Cards
         [SerializeField] private GameEvent onOutsideButtonClicked;
         [SerializeField] private GameObjectGameEvent emptyTileFound;
         [SerializeField] private GameObjectGameEvent onCardClicked;
+        [SerializeField] private GameObjectGameEvent sendToDiscardStackEvent;
 
         [Header("GridGenerator")]
         [SerializeField] private GridGenerator gridGenerator;
@@ -68,7 +69,6 @@ namespace Cards
             CanCardBeTurned();
         }
 
-        //TODO: Should be invoked at wrong played cards later, make check function if stack has cards
         /// <summary>
         /// Checks which tiles are empty and invokes event for this tile
         /// </summary>
@@ -93,7 +93,6 @@ namespace Cards
             }
         }
 
-        //TODO, invoke after every card played!
         /// <summary>
         /// Checks if card can be turned by checking if it has at least 1 neighbour
         /// </summary>
@@ -174,6 +173,23 @@ namespace Cards
             CardComparison(true);
         }
 
+        private void RightAnswer()
+        {
+            CanCardBeTurned();
+            //TODO turn ++;
+        }
+        private void WrongAnswer()
+        {
+            List<GameObject> connectedCards = GetConnectedTurnedAroundNeighbours(_clickedCard);
+            for (int i = 0; i < connectedCards.Count; i++)
+            {
+                sendToDiscardStackEvent.Invoke(connectedCards[i]);
+            }
+            CheckForEmptyTiles();
+            CanCardBeTurned();
+            //TODO turn = 0
+        }
+
         private void CardComparison(bool isHigher)
         {
             List<int> neighbourCardValues = new();
@@ -185,14 +201,19 @@ namespace Cards
                 neighbourCardValues.Add(GetCardValue(i));
             }
 
-                //TODO call interactablecard.turnaround
+            _clickedCard.GetComponent<InteractableCard>().TurnAround();
             if (neighbourCardValues.Count == 1)
             {
                 if ((isHigher && neighbourCardValues[0] <= clickedCardValue) || (!isHigher && neighbourCardValues[0] >= clickedCardValue))
+                {
+                    RightAnswer();
                     Debug.Log("Right answer HL");
-
+                }
                 else
+                {
+                    WrongAnswer();
                     Debug.Log("Wrong answer HL");
+                }
             }
             else
             {
@@ -237,11 +258,18 @@ namespace Cards
                 }
 
                 if (isHigher && clickedCardValue >= Mathf.Max(neigboursToCheck[0], neigboursToCheck[1]) || isHigher && clickedCardValue <= Mathf.Min(neigboursToCheck[0], neigboursToCheck[1]) || !isHigher && clickedCardValue <= Mathf.Max(neigboursToCheck[0], neigboursToCheck[1]) || !isHigher && clickedCardValue >= Mathf.Min(neigboursToCheck[0], neigboursToCheck[1]))
+                {
+                    RightAnswer();
                     Debug.Log("right answer IO");
+                }
                 else
+                {
+                    WrongAnswer();
                     Debug.Log("Wrong answer IO");
+                }
             }
         }
+
         private int GetCardIndex(GameObject card)
         {
             for (int i = 0; i < _tiles.Count; i++)
@@ -264,6 +292,11 @@ namespace Cards
             return card.Value;
         }
 
+        /// <summary>
+        /// Get neighbours from a cardindex
+        /// </summary>
+        /// <param name="cardIndex"></param>
+        /// <returns>List of neigbour indexes</returns>
         private List<int> GetNeighbours(int cardIndex)
         {
             List<int> neighbours = new();
@@ -285,6 +318,62 @@ namespace Cards
                 }
             }
             return neighbours;
+        }
+
+        /// <summary>
+        /// Function to retrieve all connected turned around neighbours
+        /// </summary>
+        /// <param name="startCard">The card to check the neighbours of. Algorithm starts from this card</param>
+        /// <returns>GameObjectList of connected Turned Around neighbours</returns>
+        private List<GameObject> GetConnectedTurnedAroundNeighbours(GameObject startCard)
+        {
+            // List to store all connected, turned-around cards
+            List<GameObject> connectedCards = new();
+
+            // HashSet to track visited cards (prevents revisiting the same card)
+            HashSet<GameObject> visited = new();
+
+            // Queue for BFS traversal
+            Queue<GameObject> toVisit = new();
+
+            toVisit.Enqueue(startCard);
+            visited.Add(startCard);
+
+            while (toVisit.Count > 0)
+            {
+                // Get the next card to process
+                GameObject currentCard = toVisit.Dequeue();
+                connectedCards.Add(currentCard);
+
+                // Retrieve the position of the current card
+                int cardIndex = GetCardIndex(currentCard);
+                int row = cardIndex / cardRowSize;
+                int column = cardIndex % cardRowSize;
+
+                // Check neighbors in all four directions
+                foreach (var direction in Directions)
+                {
+                    int neighbourRow = row + direction.x;
+                    int neighbourCol = column + direction.y;
+
+                    // Ensure the neighbor is within bounds
+                    if (neighbourRow >= 0 && neighbourRow < cardRowSize &&
+                        neighbourCol >= 0 && neighbourCol < cardRowSize)
+                    {
+                        GameObject neighbourTile = _tiles[neighbourRow][neighbourCol];
+                        InteractableCard neighbourCard = neighbourTile.GetComponentInChildren<InteractableCard>();
+
+                        // If the neighbor is valid, turned around, and not already visited
+                        if (neighbourCard != null && neighbourCard.TurnedAround && !visited.Contains(neighbourCard.gameObject))
+                        {
+                            toVisit.Enqueue(neighbourCard.gameObject);
+                            visited.Add(neighbourCard.gameObject);
+                        }
+                    }
+                }
+            }
+
+            return connectedCards;
         }
     }
 }

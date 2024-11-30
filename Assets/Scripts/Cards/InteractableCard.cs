@@ -1,4 +1,3 @@
-using Events;
 using Events.GameEvents.Typed;
 using UnityEngine;
 
@@ -8,7 +7,6 @@ namespace Cards
     {
         [SerializeField] private GameObjectGameEvent onCardClickedEventHL;
         [SerializeField] private GameObjectGameEvent onCardClickedEventIO;
-        [SerializeField] private GameObjectEvent onCardTurned;
 
         //TODO make event for clickable now
         private bool _clickableNow = true; // used if card outside of stack and outside of non clickable moment for example when text is on screen
@@ -28,13 +26,13 @@ namespace Cards
 
         private void OnMouseDown()
         {
-            if (!_clickableNow || _turnedAround || _neighbourCount != 0)
+            if (!_clickableNow || _turnedAround || _neighbourCount == 0)
                 return;
 
             OnCardClicked();
         }
 
-        public void OnCardClicked()
+        private void OnCardClicked()
         {
             if (_neighbourCount == 1)
                 onCardClickedEventHL.Invoke(gameObject);
@@ -42,11 +40,10 @@ namespace Cards
                 onCardClickedEventIO.Invoke(gameObject);
         }
 
-        private void TurnAround()
+        public void TurnAround()
         {
             gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
             _turnedAround = true;
-            onCardTurned.Invoke(gameObject);
         }
     }
 }

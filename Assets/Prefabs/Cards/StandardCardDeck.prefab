@@ -96,7 +96,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e67084c47d8acc44aaaf0ed24194a384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onCardTaken: {fileID: 11400000, guid: 007bdfdd63b780741a7d3f15ef31f53e, type: 2}
   emptyTileFound: {fileID: 11400000, guid: 79fd602d4b4904f4cacbe2d5300d1d43, type: 2}
 --- !u!1001 &11775802558278308
 PrefabInstance:
@@ -3852,6 +3851,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardH (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1555318518554680399, guid: e1c5b20c7682ac14da899a0065d03e02, type: 3}
+      propertyPath: onCardClickedEventHL
+      value: 
+      objectReference: {fileID: 11400000, guid: a4c1246f68cf9994eb4af903d9dfd154, type: 2}
+    - target: {fileID: 1555318518554680399, guid: e1c5b20c7682ac14da899a0065d03e02, type: 3}
+      propertyPath: onCardClickedEventIO
+      value: 
+      objectReference: {fileID: 11400000, guid: edc83fd5a9b127f48adba890f70ad930, type: 2}
     - target: {fileID: 3362997457295865273, guid: e1c5b20c7682ac14da899a0065d03e02, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
