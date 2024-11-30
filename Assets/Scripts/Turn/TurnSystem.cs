@@ -1,6 +1,6 @@
 using Events.GameEvents.Typed;
 using System.Collections.Generic;
-using UI;
+using UI.PlayerScreen;
 using UnityEngine;
 
 namespace Turn
