@@ -19,7 +19,8 @@ namespace Cards
         [SerializeField] private GameEvent onInbetweenButtonClicked;
         [SerializeField] private GameEvent onOutsideButtonClicked;
         [SerializeField] private GameObjectGameEvent emptyTileFound;
-        [SerializeField] private GameObjectGameEvent onCardClicked;
+        [SerializeField] private GameObjectGameEvent onCardClickedHL;
+        [SerializeField] private GameObjectGameEvent onCardClickedIO;
         [SerializeField] private GameObjectGameEvent sendToDiscardStackEvent;
 
         [Header("GridGenerator")]
@@ -38,7 +39,8 @@ namespace Cards
         {
             eventToCheckOn.AddListener(CheckForEmptyTiles);
             onGridMade.AddListener(MakeStartingBoard);
-            onCardClicked.AddListener(SaveClickedCard);
+            onCardClickedHL.AddListener(SaveClickedCard);
+            onCardClickedIO.AddListener(SaveClickedCard);
             onHigherButtonClicked.AddListener(CheckHigher);
             onLowerButtonClicked.AddListener(CheckLower);
             onInbetweenButtonClicked.AddListener(CheckInbetween);
@@ -98,6 +100,7 @@ namespace Cards
         /// </summary>
         private void CanCardBeTurned()
         {
+            SetStartRotations();
             // Cache InteractableCard components for all tiles
             InteractableCard[,] cardGrid = new InteractableCard[cardRowSize, cardRowSize];
             for (int i = 0; i < cardRowSize; i++)

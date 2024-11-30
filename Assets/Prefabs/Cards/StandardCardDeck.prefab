@@ -97,6 +97,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emptyTileFound: {fileID: 11400000, guid: 79fd602d4b4904f4cacbe2d5300d1d43, type: 2}
+  stackReady: {fileID: 11400000, guid: a94bc94ff48e7b546a2d9f3cfa01cd98, type: 2}
+  thisStackEmpty: {fileID: 11400000, guid: 3b5437300e7fd824d8b0959e91ca6a87, type: 2}
+  pushCards: {fileID: 11400000, guid: 1d053211d82620d48a2f31adaf6e2c9e, type: 2}
 --- !u!1001 &11775802558278308
 PrefabInstance:
   m_ObjectHideFlags: 0
