@@ -5,9 +5,12 @@ using UnityEngine;
 
 namespace Turn
 {
+    /// <summary>
+    /// Holds function for turn system
+    /// </summary>
     public class TurnSystem : MonoBehaviour
     {
-        [SerializeField] private StringGameEvent nextTurn;
+        [SerializeField] private StringGameEvent setNextTurnEvent;
         private PlayerInfoHolder _playerInfoHolder;
         private List<string> _players = new();
         private int _currentPlayerIndex;
@@ -30,14 +33,14 @@ namespace Turn
             _currentPlayerIndex = Random.Range(0, _players.Count);
         }
 
-        private void StartGame()
+        private void StartGame()//TODO connect text
         {
-            nextTurn.Invoke(_players[_currentPlayerIndex]);
+            setNextTurnEvent.Invoke(_players[_currentPlayerIndex]);
         }
 
-        public void SetTurn()
+        public void SetTurn()//TODO: connect text
         {
-            nextTurn.Invoke(_players[IndexBoundaryCheck(_currentPlayerIndex + _amountToAdd)]);
+            setNextTurnEvent.Invoke(_players[IndexBoundaryCheck(_currentPlayerIndex + _amountToAdd)]);
         }
 
         /// <summary>

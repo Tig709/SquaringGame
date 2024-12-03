@@ -1,28 +1,40 @@
+using Events.GameEvents;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Turn
 {
+    /// <summary>
+    /// Holds functions for a player's turn
+    /// </summary>
     public class PlayerTurnHandler : MonoBehaviour
     {
         [SerializeField] private UnityEvent onCardsToPlayReached = new();
-        //event to do the Reset and add played cards
+        [SerializeField] private GameEvent onWrongAnswerEvent;
+        [SerializeField] private GameEvent onRightAnswerEvent;
         [SerializeField] private int cardsToPlay;
         private int _playedCards;
 
-        //Also invoke on wrong card
+        private void Awake()
+        {
+            onWrongAnswerEvent.AddListener(ResetPlayedCards);
+            onRightAnswerEvent.AddListener(AddAPlayedCard);
+        }
+
         private void ResetPlayedCards()
         {
             _playedCards = 0;
         }
 
-        //invoke on card played correct
         private void AddAPlayedCard()
         {
             _playedCards++;
             AreCardsToPlayReached();
         }
 
+        /// <summary>
+        /// Checks if player reached cards he needs to play in a turn
+        /// </summary>
         private void AreCardsToPlayReached()
         {
             if (cardsToPlay != _playedCards)

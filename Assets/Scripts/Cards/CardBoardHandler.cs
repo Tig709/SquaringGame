@@ -18,6 +18,8 @@ namespace Cards
         [SerializeField] private GameEvent onLowerButtonClicked;
         [SerializeField] private GameEvent onInbetweenButtonClicked;
         [SerializeField] private GameEvent onOutsideButtonClicked;
+        [SerializeField] private GameEvent onWrongAnswerEvent;
+        [SerializeField] private GameEvent onRightAnswerEvent;
         [SerializeField] private GameObjectGameEvent emptyTileFound;
         [SerializeField] private GameObjectGameEvent onCardClickedHL;
         [SerializeField] private GameObjectGameEvent onCardClickedIO;
@@ -179,7 +181,7 @@ namespace Cards
         private void RightAnswer()
         {
             CanCardBeTurned();
-            //TODO turn ++;
+            onRightAnswerEvent.Invoke();
         }
         private void WrongAnswer()
         {
@@ -190,7 +192,7 @@ namespace Cards
             }
             CheckForEmptyTiles();
             CanCardBeTurned();
-            //TODO turn = 0
+            onWrongAnswerEvent.Invoke();
         }
 
         private void CardComparison(bool isHigher)

@@ -50,6 +50,8 @@ MonoBehaviour:
   onLowerButtonClicked: {fileID: 11400000, guid: 47e97220273c956449e1979173591578, type: 2}
   onInbetweenButtonClicked: {fileID: 11400000, guid: 8947cfed765e4f842aaca78a79e5253f, type: 2}
   onOutsideButtonClicked: {fileID: 11400000, guid: 2391b1643d4699b469aac2fe737ade31, type: 2}
+  onWrongAnswerEvent: {fileID: 11400000, guid: 2508fe07b78b4d6418f2e0751983cd76, type: 2}
+  onRightAnswerEvent: {fileID: 11400000, guid: f6813fcfc93acd2418161a7e3205c42b, type: 2}
   emptyTileFound: {fileID: 11400000, guid: 79fd602d4b4904f4cacbe2d5300d1d43, type: 2}
   onCardClickedHL: {fileID: 11400000, guid: a4c1246f68cf9994eb4af903d9dfd154, type: 2}
   onCardClickedIO: {fileID: 11400000, guid: edc83fd5a9b127f48adba890f70ad930, type: 2}
