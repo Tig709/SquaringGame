@@ -18,7 +18,7 @@ namespace Turn
 
         private void Awake()
         {
-            _playerInfoHolder = GetComponent<PlayerInfoHolder>();
+            _playerInfoHolder = PlayerInfoHolder.Instance;
         }
 
         private void Start()

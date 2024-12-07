@@ -6,7 +6,7 @@ using UnityEngine;
 namespace UI
 {
     /// <summary>
-    /// Set text(s) on event
+    /// Set text(s) on event (text is pushed with event)
     /// </summary>
     public class SetTextsOnEvent : MonoBehaviour
     {

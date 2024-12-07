@@ -9,6 +9,9 @@ namespace UI.PlayerScreen
     /// </summary>
     public class PlayerInfoHolder : MonoBehaviour
     {
+        // Singleton Instance
+        public static PlayerInfoHolder Instance { get; private set; }
+
         [SerializeField] private StringListGameEvent eventToSaveNames;
 
         private List<string> _playerNames = new();
@@ -16,7 +19,17 @@ namespace UI.PlayerScreen
 
         private void Awake()
         {
+            // Singleton logic
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+
             DontDestroyOnLoad(gameObject);
+
             eventToSaveNames.AddListener(saveNames);
         }
 

@@ -1,4 +1,5 @@
 using Events.GameEvents;
+using Events.GameEvents.Typed;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,6 +13,7 @@ namespace Turn
         [SerializeField] private UnityEvent onCardsToPlayReached = new();
         [SerializeField] private GameEvent onWrongAnswerEvent;
         [SerializeField] private GameEvent onRightAnswerEvent;
+        [SerializeField] private IntGameEvent onPlayedCardsChanged;
         [SerializeField] private int cardsToPlay;
         private int _playedCards;
 
@@ -24,11 +26,13 @@ namespace Turn
         private void ResetPlayedCards()
         {
             _playedCards = 0;
+            onPlayedCardsChanged.Invoke(_playedCards);
         }
 
         private void AddAPlayedCard()
         {
             _playedCards++;
+            onPlayedCardsChanged.Invoke(_playedCards);
             AreCardsToPlayReached();
         }
 
