@@ -1,4 +1,5 @@
 using Events.GameEvents.Typed;
+using System.Collections;
 using System.Collections.Generic;
 using UI.PlayerScreen;
 using UnityEngine;
@@ -40,6 +41,12 @@ namespace Turn
 
         public void SetTurn()
         {
+            StartCoroutine(invokeAfterSeconds(2));
+        }
+
+        private IEnumerator invokeAfterSeconds(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
             setNextTurnEvent.Invoke(_players[IndexBoundaryCheck(_currentPlayerIndex + _amountToAdd)]);
         }
 
