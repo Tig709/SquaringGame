@@ -134,13 +134,15 @@ GameObject:
   - component: {fileID: 48045818}
   - component: {fileID: 48045820}
   - component: {fileID: 48045819}
+  - component: {fileID: 48045822}
+  - component: {fileID: 48045821}
   m_Layer: 5
   m_Name: PlayersTurnText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &48045818
 RectTransform:
   m_ObjectHideFlags: 0
@@ -158,7 +160,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1400, y: 200}
+  m_SizeDelta: {x: 1000, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &48045819
 MonoBehaviour:
@@ -180,7 +182,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PLAYEsssssssR's turn
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -257,6 +259,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 48045817}
   m_CullTransparentMesh: 1
+--- !u!114 &48045821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48045817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34e6d06590ca874180bd7771c73ce38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventToStartTimer: {fileID: 11400000, guid: 21d1294faa976df42b9ac01939dec62e, type: 2}
+  thisText: {fileID: 48045819}
+  time: 2
+--- !u!114 &48045822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48045817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16d949a2fa828e45b6ff8d92c5d8468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventToSetOn: {fileID: 11400000, guid: 21d1294faa976df42b9ac01939dec62e, type: 2}
+  textToSet: {fileID: 48045819}
+  textToAddBehind: '''s turn'
 --- !u!1 &289608786
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,13 +513,17 @@ GameObject:
   - component: {fileID: 913575670}
   - component: {fileID: 913575672}
   - component: {fileID: 913575671}
+  - component: {fileID: 913575676}
+  - component: {fileID: 913575675}
+  - component: {fileID: 913575674}
+  - component: {fileID: 913575673}
   m_Layer: 5
   m_Name: AnswerFeedbackText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &913575670
 RectTransform:
   m_ObjectHideFlags: 0
@@ -527,7 +563,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GOOD
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -604,6 +640,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 913575669}
   m_CullTransparentMesh: 1
+--- !u!114 &913575673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913575669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34e6d06590ca874180bd7771c73ce38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventToStartTimer: {fileID: 11400000, guid: eabf0d385d5ebc44db065862093d381b, type: 2}
+  thisText: {fileID: 913575671}
+  time: 2
+--- !u!114 &913575674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913575669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34e6d06590ca874180bd7771c73ce38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventToStartTimer: {fileID: 11400000, guid: f6813fcfc93acd2418161a7e3205c42b, type: 2}
+  thisText: {fileID: 913575671}
+  time: 2
+--- !u!114 &913575675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913575669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16d949a2fa828e45b6ff8d92c5d8468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventToSetOn: {fileID: 11400000, guid: eabf0d385d5ebc44db065862093d381b, type: 2}
+  textToSet: {fileID: 913575671}
+  textToAddBehind: 
+--- !u!114 &913575676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913575669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16d949a2fa828e45b6ff8d92c5d8468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventToSetOn: {fileID: 11400000, guid: f6813fcfc93acd2418161a7e3205c42b, type: 2}
+  textToSet: {fileID: 913575671}
+  textToAddBehind: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,7 +1052,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Cards played this turn x/y
+  m_text: Cards played this turn 0/2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1117,6 +1213,9 @@ GameObject:
   - component: {fileID: 1896345735}
   - component: {fileID: 1896345737}
   - component: {fileID: 1896345736}
+  - component: {fileID: 1896345738}
+  - component: {fileID: 1896345740}
+  - component: {fileID: 1896345739}
   m_Layer: 5
   m_Name: HLIOText
   m_TagString: Untagged
@@ -1163,7 +1262,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Is x outside or in between y and z?
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1240,6 +1339,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1896345734}
   m_CullTransparentMesh: 1
+--- !u!114 &1896345738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896345734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760aed8003592b942980ce3d23c0655a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventsToSaveOn:
+  - {fileID: 11400000, guid: a4c1246f68cf9994eb4af903d9dfd154, type: 2}
+  - {fileID: 11400000, guid: edc83fd5a9b127f48adba890f70ad930, type: 2}
+--- !u!114 &1896345739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896345734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4ca9d1d3cba7e41be082390aa11e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SaveStringFromGOEvents: {fileID: 1896345738}
+  SaveStringsFromGOListEvent: {fileID: 1896345740}
+  targetText: {fileID: 1896345736}
+  eventToShowOn: {fileID: 0}
+--- !u!114 &1896345740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896345734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11c9fc834573a8b479d281e4d43afcca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventToSaveOn: {fileID: 11400000, guid: 0b2ae5ce67293794ab92296129fdd83b, type: 2}
 --- !u!224 &173178056334192177 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4600425151678653959, guid: b208f712e0033624ab01fe7bc4af3ad2, type: 3}

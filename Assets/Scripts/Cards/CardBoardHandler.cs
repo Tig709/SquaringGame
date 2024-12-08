@@ -18,12 +18,13 @@ namespace Cards
         [SerializeField] private GameEvent onLowerButtonClicked;
         [SerializeField] private GameEvent onInbetweenButtonClicked;
         [SerializeField] private GameEvent onOutsideButtonClicked;
-        [SerializeField] private GameEvent onWrongAnswerEvent;
-        [SerializeField] private GameEvent onRightAnswerEvent;
+        [SerializeField] private StringGameEvent onWrongAnswerEvent;
+        [SerializeField] private StringGameEvent onRightAnswerEvent;
         [SerializeField] private GameObjectGameEvent emptyTileFound;
         [SerializeField] private GameObjectGameEvent onCardClickedHL;
         [SerializeField] private GameObjectGameEvent onCardClickedIO;
         [SerializeField] private GameObjectGameEvent sendToDiscardStackEvent;
+        [SerializeField] private GameObjectListGameEvent onNeighboursFoundEvent;
 
         [Header("GridGenerator")]
         [SerializeField] private GridGenerator gridGenerator;
@@ -113,6 +114,7 @@ namespace Cards
                 }
             }
 
+            List<GameObject> neigbours = new();
             //CheckNeighbours
             for (int i = 0; i < cardRowSize; i++)
             {
@@ -128,10 +130,14 @@ namespace Cards
                     {
                         InteractableCard neighbourCard = CheckDirection(cardGrid, i + direction.x, j + direction.y);
                         if (neighbourCard != null && neighbourCard.TurnedAround)
+                        {
                             neighbourCount++;
+                            neigbours.Add(neighbourCard.gameObject);
+                        }
                     }
 
                     card.NeighbourCount = neighbourCount;
+                    onNeighboursFoundEvent.Invoke(neigbours);
                 }
             }
         }
@@ -181,8 +187,9 @@ namespace Cards
         private void RightAnswer()
         {
             CanCardBeTurned();
-            onRightAnswerEvent.Invoke();
+            onRightAnswerEvent.Invoke("RIGHT");
         }
+
         private void WrongAnswer()
         {
             List<GameObject> connectedCards = GetConnectedTurnedAroundNeighbours(_clickedCard);
@@ -192,7 +199,7 @@ namespace Cards
             }
             CheckForEmptyTiles();
             CanCardBeTurned();
-            onWrongAnswerEvent.Invoke();
+            onWrongAnswerEvent.Invoke("WRONG");
         }
 
         private void CardComparison(bool isHigher)
@@ -222,6 +229,7 @@ namespace Cards
             }
             else
             {
+                //TODO but this part earlier, at the place were card is saved save neighbourstocheck, only do check for right wrong here, send neighbours tocheck
                 List<int> neigboursToCheck = new() { neighbourCardValues[0], neighbourCardValues[1] };
                 if (neighbourCardValues.Count == 3)
                 {

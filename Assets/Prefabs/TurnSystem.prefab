@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setNextTurnEvent: {fileID: 11400000, guid: 21d1294faa976df42b9ac01939dec62e, type: 2}
-  playerInfoHolder: {fileID: 11400000, guid: 108da5f281173ba4c82f5780bae26c9b, type: 2}
 --- !u!114 &461388819208710442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +73,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onWrongAnswerEvent: {fileID: 11400000, guid: 2508fe07b78b4d6418f2e0751983cd76, type: 2}
+  onWrongAnswerEvent: {fileID: 11400000, guid: eabf0d385d5ebc44db065862093d381b, type: 2}
   onRightAnswerEvent: {fileID: 11400000, guid: f6813fcfc93acd2418161a7e3205c42b, type: 2}
   onPlayedCardsChanged: {fileID: 11400000, guid: e7e7e34ac68b34a42a562fe2ed2668f3, type: 2}
   cardsToPlay: 2

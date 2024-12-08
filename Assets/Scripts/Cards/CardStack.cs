@@ -28,6 +28,8 @@ namespace Cards
         {
             foreach (Card card in gameObject.GetComponentsInChildren<Card>())
                 _cards.Push(card);
+
+            ShuffleStack();
         }
 
         private void ShuffleStack()
