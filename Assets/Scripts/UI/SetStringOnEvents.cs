@@ -1,5 +1,4 @@
 using Events.GameEvents;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,6 +11,7 @@ namespace UI
         [SerializeField] private List<GameEvent> eventsToSetStringOn = new List<GameEvent>();
         [SerializeField] private TextMeshProUGUI targetText;
         [SerializeField] private string newText;
+
         private void Awake()
         {
             foreach (GameEvent eventToSetStringOn in eventsToSetStringOn)

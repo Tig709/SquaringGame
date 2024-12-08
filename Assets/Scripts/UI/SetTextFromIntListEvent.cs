@@ -1,5 +1,3 @@
-using Cards;
-using Events.GameEvents;
 using Events.GameEvents.Typed;
 using System.Collections.Generic;
 using TMPro;
@@ -14,7 +12,6 @@ namespace UI
 
         private void Awake()
         {
-            Debug.Log("Added Event");
             eventToShowOn.AddListener(SetText);
         }
 

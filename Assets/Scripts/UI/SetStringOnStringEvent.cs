@@ -2,9 +2,9 @@ using Events.GameEvents.Typed;
 using TMPro;
 using UnityEngine;
 
-namespace ui
+namespace UI
 {
-    public class SetStringOnEvent : MonoBehaviour
+    public class SetStringOnStringEvent : MonoBehaviour
     {
         [SerializeField] private StringGameEvent eventToSetOn;
         [SerializeField] private TextMeshProUGUI textToSet;
