@@ -33,12 +33,12 @@ namespace Turn
             _currentPlayerIndex = Random.Range(0, _players.Count);
         }
 
-        private void StartGame()//TODO connect text
+        private void StartGame()
         {
             setNextTurnEvent.Invoke(_players[_currentPlayerIndex]);
         }
 
-        public void SetTurn()//TODO: connect text
+        public void SetTurn()
         {
             setNextTurnEvent.Invoke(_players[IndexBoundaryCheck(_currentPlayerIndex + _amountToAdd)]);
         }

@@ -1213,16 +1213,15 @@ GameObject:
   - component: {fileID: 1896345735}
   - component: {fileID: 1896345737}
   - component: {fileID: 1896345736}
-  - component: {fileID: 1896345738}
-  - component: {fileID: 1896345740}
   - component: {fileID: 1896345739}
+  - component: {fileID: 1896345741}
   m_Layer: 5
   m_Name: HLIOText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1896345735
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1339,21 +1338,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1896345734}
   m_CullTransparentMesh: 1
---- !u!114 &1896345738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1896345734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 760aed8003592b942980ce3d23c0655a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventsToSaveOn:
-  - {fileID: 11400000, guid: a4c1246f68cf9994eb4af903d9dfd154, type: 2}
-  - {fileID: 11400000, guid: edc83fd5a9b127f48adba890f70ad930, type: 2}
 --- !u!114 &1896345739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1366,11 +1350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4ca9d1d3cba7e41be082390aa11e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SaveStringFromGOEvents: {fileID: 1896345738}
-  SaveStringsFromGOListEvent: {fileID: 1896345740}
+  eventToShowOn: {fileID: 11400000, guid: ef95dcc281e1bea43a37c92e3d3a6871, type: 2}
   targetText: {fileID: 1896345736}
-  eventToShowOn: {fileID: 0}
---- !u!114 &1896345740
+--- !u!114 &1896345741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1379,10 +1361,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1896345734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11c9fc834573a8b479d281e4d43afcca, type: 3}
+  m_Script: {fileID: 11500000, guid: 421023fe356e8ec40b774bb38251002f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventToSaveOn: {fileID: 11400000, guid: 0b2ae5ce67293794ab92296129fdd83b, type: 2}
+  eventsToSetStringOn:
+  - {fileID: 11400000, guid: 2391b1643d4699b469aac2fe737ade31, type: 2}
+  - {fileID: 11400000, guid: 8947cfed765e4f842aaca78a79e5253f, type: 2}
+  - {fileID: 11400000, guid: 47e97220273c956449e1979173591578, type: 2}
+  - {fileID: 11400000, guid: 0c61fae4b11a35540843d3a0d6c157b2, type: 2}
+  targetText: {fileID: 1896345736}
+  newText: 
 --- !u!224 &173178056334192177 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4600425151678653959, guid: b208f712e0033624ab01fe7bc4af3ad2, type: 3}

@@ -24,7 +24,7 @@ namespace Cards
         [SerializeField] private GameObjectGameEvent onCardClickedHL;
         [SerializeField] private GameObjectGameEvent onCardClickedIO;
         [SerializeField] private GameObjectGameEvent sendToDiscardStackEvent;
-        [SerializeField] private GameObjectListGameEvent onNeighboursFoundEvent;
+        [SerializeField] private IntListGameEvent onNeighboursFoundEvent;
 
         [Header("GridGenerator")]
         [SerializeField] private GridGenerator gridGenerator;
@@ -35,8 +35,10 @@ namespace Cards
         private List<PlayableTile> _playableTiles = new();
         private List<PlayableTile> _cornerTiles = new();
         private List<List<GameObject>> _tiles = new();
+        private List<int> _openNeighbourCardValues = new();
         private static readonly Vector2Int[] Directions = { new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) }; // Up, Down, Left, Right
         private GameObject _clickedCard;
+        private int _clickedCardValue;
 
         private void Awake()
         {
@@ -44,6 +46,8 @@ namespace Cards
             onGridMade.AddListener(MakeStartingBoard);
             onCardClickedHL.AddListener(SaveClickedCard);
             onCardClickedIO.AddListener(SaveClickedCard);
+            onCardClickedHL.AddListener(GetClickedCardNeighbours);
+            onCardClickedIO.AddListener(GetClickedCardNeighbours);
             onHigherButtonClicked.AddListener(CheckHigher);
             onLowerButtonClicked.AddListener(CheckLower);
             onInbetweenButtonClicked.AddListener(CheckInbetween);
@@ -114,7 +118,6 @@ namespace Cards
                 }
             }
 
-            List<GameObject> neigbours = new();
             //CheckNeighbours
             for (int i = 0; i < cardRowSize; i++)
             {
@@ -130,14 +133,9 @@ namespace Cards
                     {
                         InteractableCard neighbourCard = CheckDirection(cardGrid, i + direction.x, j + direction.y);
                         if (neighbourCard != null && neighbourCard.TurnedAround)
-                        {
                             neighbourCount++;
-                            neigbours.Add(neighbourCard.gameObject);
-                        }
                     }
-
                     card.NeighbourCount = neighbourCount;
-                    onNeighboursFoundEvent.Invoke(neigbours);
                 }
             }
         }
@@ -162,6 +160,67 @@ namespace Cards
         private void SaveClickedCard(GameObject card)
         {
             _clickedCard = card;
+            _clickedCardValue = GetCardValue(GetCardIndex(_clickedCard));
+        }
+
+        private void GetClickedCardNeighbours(GameObject card)
+        {
+            _openNeighbourCardValues = GetOpenNeighbourCardValues(card);
+            onNeighboursFoundEvent.Invoke(_openNeighbourCardValues);
+        }
+
+        private List<int> GetOpenNeighbourCardValues(GameObject card)
+        {
+            List<int> neighbourCardValues = new();
+
+            foreach (int i in GetNeighbours(GetCardIndex(card)))
+            {
+                neighbourCardValues.Add(GetCardValue(i));
+            }
+
+            if (neighbourCardValues.Count == 1)
+                _openNeighbourCardValues = new List<int> { neighbourCardValues[0] };
+
+            if (neighbourCardValues.Count == 2 || neighbourCardValues.Count == 3)
+            {
+                int differenceAB = Mathf.Abs(neighbourCardValues[0] - neighbourCardValues[1]);
+                int differenceAC = Mathf.Abs(neighbourCardValues[0] - neighbourCardValues[2]);
+                int differenceBC = Mathf.Abs(neighbourCardValues[1] - neighbourCardValues[2]);
+
+                int maxDiff = differenceAB;
+                List<int> maxPairValues = new() { neighbourCardValues[0], neighbourCardValues[1] };
+
+                int minDiff = differenceAB;
+                List<int> minPairValues = new() { neighbourCardValues[0], neighbourCardValues[1] };
+
+                if (differenceAC > maxDiff)
+                {
+                    maxDiff = differenceAC;
+                    maxPairValues = new List<int> { neighbourCardValues[0], neighbourCardValues[2] };
+                }
+                if (differenceBC > maxDiff)
+                {
+                    maxDiff = differenceBC;
+                    maxPairValues = new List<int> { neighbourCardValues[1], neighbourCardValues[2] };
+                }
+
+                if (differenceAC < minDiff)
+                {
+                    minDiff = differenceAC;
+                    minPairValues = new List<int> { neighbourCardValues[0], neighbourCardValues[2] };
+                }
+                if (differenceBC < minDiff)
+                {
+                    minDiff = differenceBC;
+                    minPairValues = new List<int> { neighbourCardValues[1], neighbourCardValues[2] };
+                }
+
+                _openNeighbourCardValues = maxPairValues;
+                if (maxDiff > minDiff)
+                    _openNeighbourCardValues = minPairValues;
+            }
+
+            return _openNeighbourCardValues;
         }
 
         private void CheckHigher()
@@ -204,19 +263,10 @@ namespace Cards
 
         private void CardComparison(bool isHigher)
         {
-            List<int> neighbourCardValues = new();
-
-            int clickedCardValue = GetCardValue(GetCardIndex(_clickedCard));
-
-            foreach (int i in GetNeighbours(GetCardIndex(_clickedCard)))
-            {
-                neighbourCardValues.Add(GetCardValue(i));
-            }
-
             _clickedCard.GetComponent<InteractableCard>().TurnAround();
-            if (neighbourCardValues.Count == 1)
+            if (_openNeighbourCardValues.Count == 1)
             {
-                if ((isHigher && neighbourCardValues[0] <= clickedCardValue) || (!isHigher && neighbourCardValues[0] >= clickedCardValue))
+                if ((isHigher && _openNeighbourCardValues[0] <= _clickedCardValue) || (!isHigher && _openNeighbourCardValues[0] >= _clickedCardValue))
                 {
                     RightAnswer();
                     Debug.Log("Right answer HL");
@@ -229,48 +279,7 @@ namespace Cards
             }
             else
             {
-                //TODO but this part earlier, at the place were card is saved save neighbourstocheck, only do check for right wrong here, send neighbours tocheck
-                List<int> neigboursToCheck = new() { neighbourCardValues[0], neighbourCardValues[1] };
-                if (neighbourCardValues.Count == 3)
-                {
-                    int differenceAB = Mathf.Abs(neighbourCardValues[0] - neighbourCardValues[1]);
-                    int differenceAC = Mathf.Abs(neighbourCardValues[0] - neighbourCardValues[2]);
-                    int differenceBC = Mathf.Abs(neighbourCardValues[1] - neighbourCardValues[2]);
-
-                    int maxDiff = differenceAB;
-                    List<int> maxPairValues = new() { neighbourCardValues[0], neighbourCardValues[1] };
-
-                    int minDiff = differenceAB;
-                    List<int> minPairValues = new() { neighbourCardValues[0], neighbourCardValues[1] };
-
-                    if (differenceAC > maxDiff)
-                    {
-                        maxDiff = differenceAC;
-                        maxPairValues = new List<int> { neighbourCardValues[0], neighbourCardValues[2] };
-                    }
-                    if (differenceBC > maxDiff)
-                    {
-                        maxDiff = differenceBC;
-                        maxPairValues = new List<int> { neighbourCardValues[1], neighbourCardValues[2] };
-                    }
-
-                    if (differenceAC < minDiff)
-                    {
-                        minDiff = differenceAC;
-                        minPairValues = new List<int> { neighbourCardValues[0], neighbourCardValues[2] };
-                    }
-                    if (differenceBC < minDiff)
-                    {
-                        minDiff = differenceBC;
-                        minPairValues = new List<int> { neighbourCardValues[1], neighbourCardValues[2] };
-                    }
-
-                    neigboursToCheck = maxPairValues;
-                    if (maxDiff > minDiff)
-                        neigboursToCheck = minPairValues;
-                }
-
-                if (isHigher && clickedCardValue >= Mathf.Max(neigboursToCheck[0], neigboursToCheck[1]) || isHigher && clickedCardValue <= Mathf.Min(neigboursToCheck[0], neigboursToCheck[1]) || !isHigher && clickedCardValue <= Mathf.Max(neigboursToCheck[0], neigboursToCheck[1]) || !isHigher && clickedCardValue >= Mathf.Min(neigboursToCheck[0], neigboursToCheck[1]))
+                if (isHigher && _clickedCardValue >= Mathf.Max(_openNeighbourCardValues[0], _openNeighbourCardValues[1]) || isHigher && _clickedCardValue <= Mathf.Min(_openNeighbourCardValues[0], _openNeighbourCardValues[1]) || !isHigher && _clickedCardValue <= Mathf.Max(_openNeighbourCardValues[0], _openNeighbourCardValues[1]) || !isHigher && _clickedCardValue >= Mathf.Min(_openNeighbourCardValues[0], _openNeighbourCardValues[1]))
                 {
                     RightAnswer();
                     Debug.Log("right answer IO");

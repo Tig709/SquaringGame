@@ -15,6 +15,14 @@ namespace Events
     }
 
     /// <summary>
+    /// One argument <see cref="List<int>"/>-<see cref="List<int>"/>, serializable to the inspector.
+    /// </summary>
+    [Serializable]
+    public class IntListEvent : UnityEvent<List<int>>
+    {
+    }
+
+    /// <summary>
     /// One argument float-<see cref="UnityEvent"/>, serializable to the inspector.
     /// </summary>
     [Serializable]
