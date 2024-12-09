@@ -3,6 +3,7 @@ using Events.GameEvents.Typed;
 using Grid;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Cards
@@ -19,6 +20,7 @@ namespace Cards
         [SerializeField] private GameEvent onLowerButtonClicked;
         [SerializeField] private GameEvent onInbetweenButtonClicked;
         [SerializeField] private GameEvent onOutsideButtonClicked;
+        [SerializeField] private GameEvent gameWonEvent;
         [SerializeField] private StringGameEvent onWrongAnswerEvent;
         [SerializeField] private StringGameEvent onRightAnswerEvent;
         [SerializeField] private GameObjectGameEvent emptyTileFound;
@@ -40,6 +42,7 @@ namespace Cards
         private static readonly Vector2Int[] Directions = { new Vector2Int(-1, 0), new Vector2Int(1, 0), new Vector2Int(0, -1), new Vector2Int(0, 1) }; // Up, Down, Left, Right
         private GameObject _clickedCard;
         private int _clickedCardValue;
+        private bool _gameWon;
 
         private void Awake()
         {
@@ -136,6 +139,21 @@ namespace Cards
                     }
                     card.NeighbourCount = neighbourCount;
                 }
+            }
+        }
+
+        private void WinCheck()
+        {
+            int turnedAroundCount = 0;
+
+            foreach (PlayableTile playableTile in _playableTiles)
+                if (playableTile.GetComponent<InteractableCard>().TurnedAround)
+                    turnedAroundCount++;
+
+            if (turnedAroundCount == _playableTiles.Count)
+            {
+                gameWonEvent.Invoke();
+                _gameWon = true;
             }
         }
 
@@ -245,7 +263,10 @@ namespace Cards
         private void RightAnswer()
         {
             CanCardBeTurned();
-            onRightAnswerEvent.Invoke("RIGHT");
+            WinCheck();
+
+            if (!_gameWon)
+                onRightAnswerEvent.Invoke("RIGHT");
         }
 
         private void WrongAnswer()

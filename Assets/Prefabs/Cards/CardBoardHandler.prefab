@@ -50,6 +50,7 @@ MonoBehaviour:
   onLowerButtonClicked: {fileID: 11400000, guid: 47e97220273c956449e1979173591578, type: 2}
   onInbetweenButtonClicked: {fileID: 11400000, guid: 8947cfed765e4f842aaca78a79e5253f, type: 2}
   onOutsideButtonClicked: {fileID: 11400000, guid: 2391b1643d4699b469aac2fe737ade31, type: 2}
+  gameWonEvent: {fileID: 11400000, guid: d00e67b746f4269438d983a9c71ffed1, type: 2}
   onWrongAnswerEvent: {fileID: 11400000, guid: eabf0d385d5ebc44db065862093d381b, type: 2}
   onRightAnswerEvent: {fileID: 11400000, guid: f6813fcfc93acd2418161a7e3205c42b, type: 2}
   emptyTileFound: {fileID: 11400000, guid: 79fd602d4b4904f4cacbe2d5300d1d43, type: 2}
