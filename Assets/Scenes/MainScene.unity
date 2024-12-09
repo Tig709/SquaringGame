@@ -1031,6 +1031,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: edc83fd5a9b127f48adba890f70ad930, type: 2}
   targetText: {fileID: 1244989858}
   newText: 
+  delay: 0
 --- !u!114 &1244989861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1050,6 +1051,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2391b1643d4699b469aac2fe737ade31, type: 2}
   targetText: {fileID: 1244989858}
   newText: Choose an card next to an open card to turn around!
+  delay: 4
 --- !u!1 &1623686923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,6 +1429,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0c61fae4b11a35540843d3a0d6c157b2, type: 2}
   targetText: {fileID: 1896345736}
   newText: 
+  delay: 0
 --- !u!224 &173178056334192177 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4600425151678653959, guid: b208f712e0033624ab01fe7bc4af3ad2, type: 3}
