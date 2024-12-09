@@ -1,6 +1,7 @@
 using Events.GameEvents;
 using Events.GameEvents.Typed;
 using Grid;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -96,10 +97,8 @@ namespace Cards
         private void SetStartRotations()
         {
             foreach (PlayableTile cornerGridTile in _cornerTiles)
-            {
-                cornerGridTile.transform.localEulerAngles = new Vector3(180, 0, 0);
-                cornerGridTile.GetComponentInChildren<InteractableCard>().TurnedAround = true;
-            }
+                cornerGridTile.GetComponentInChildren<InteractableCard>().TurnAround();
+
         }
 
         /// <summary>
@@ -225,22 +224,22 @@ namespace Cards
 
         private void CheckHigher()
         {
-            CardComparison(true);
+            StartCoroutine(CardComparison(true));
         }
 
         private void CheckLower()
         {
-            CardComparison(false);
+            StartCoroutine(CardComparison(false));
         }
 
         private void CheckInbetween()
         {
-            CardComparison(false);
+            StartCoroutine(CardComparison(false));
         }
 
         private void CheckOutside()
         {
-            CardComparison(true);
+            StartCoroutine(CardComparison(true));
         }
 
         private void RightAnswer()
@@ -261,9 +260,10 @@ namespace Cards
             onWrongAnswerEvent.Invoke("WRONG");
         }
 
-        private void CardComparison(bool isHigher)
+        private IEnumerator CardComparison(bool isHigher)
         {
             _clickedCard.GetComponent<InteractableCard>().TurnAround();
+            yield return new WaitForSeconds(2);
             if (_openNeighbourCardValues.Count == 1)
             {
                 if ((isHigher && _openNeighbourCardValues[0] <= _clickedCardValue) || (!isHigher && _openNeighbourCardValues[0] >= _clickedCardValue))
@@ -279,7 +279,7 @@ namespace Cards
             }
             else
             {
-                if (isHigher && _clickedCardValue >= Mathf.Max(_openNeighbourCardValues[0], _openNeighbourCardValues[1]) || isHigher && _clickedCardValue <= Mathf.Min(_openNeighbourCardValues[0], _openNeighbourCardValues[1]) || !isHigher && _clickedCardValue <= Mathf.Max(_openNeighbourCardValues[0], _openNeighbourCardValues[1]) || !isHigher && _clickedCardValue >= Mathf.Min(_openNeighbourCardValues[0], _openNeighbourCardValues[1]))
+                if (isHigher && _clickedCardValue >= Mathf.Max(_openNeighbourCardValues[0], _openNeighbourCardValues[1]) && isHigher && _clickedCardValue <= Mathf.Min(_openNeighbourCardValues[0], _openNeighbourCardValues[1]) || !isHigher && _clickedCardValue <= Mathf.Max(_openNeighbourCardValues[0], _openNeighbourCardValues[1]) && !isHigher && _clickedCardValue >= Mathf.Min(_openNeighbourCardValues[0], _openNeighbourCardValues[1]))
                 {
                     RightAnswer();
                     Debug.Log("right answer IO");
