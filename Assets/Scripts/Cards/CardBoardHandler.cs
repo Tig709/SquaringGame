@@ -21,7 +21,7 @@ namespace Cards
         [SerializeField] private GameEvent onInbetweenButtonClicked;
         [SerializeField] private GameEvent onOutsideButtonClicked;
         [SerializeField] private GameEvent gameWonEvent;
-        [SerializeField] private StringGameEvent onWrongAnswerEvent;
+        [SerializeField] private IntGameEvent onWrongAnswerEvent;
         [SerializeField] private StringGameEvent onRightAnswerEvent;
         [SerializeField] private GameObjectGameEvent emptyTileFound;
         [SerializeField] private GameObjectGameEvent onCardClickedHL;
@@ -147,7 +147,7 @@ namespace Cards
             int turnedAroundCount = 0;
 
             foreach (PlayableTile playableTile in _playableTiles)
-                if (playableTile.GetComponent<InteractableCard>().TurnedAround)
+                if (playableTile.GetComponentInChildren<InteractableCard>().TurnedAround)
                     turnedAroundCount++;
 
             if (turnedAroundCount == _playableTiles.Count)
@@ -278,7 +278,7 @@ namespace Cards
             }
             CheckForEmptyTiles();
             CanCardBeTurned();
-            onWrongAnswerEvent.Invoke("WRONG");
+            onWrongAnswerEvent.Invoke(connectedCards.Count);
         }
 
         private IEnumerator CardComparison(bool isHigher)

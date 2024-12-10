@@ -15,7 +15,9 @@ namespace UI.PlayerScreen
         [SerializeField] private StringListGameEvent eventToSaveNames;
 
         private List<string> _playerNames = new();
+        private List<int> _playerScores = new();
         public List<string> PlayerNames => _playerNames;
+        public List<int> PlayerScores => _playerScores;
 
         private void Awake()
         {
@@ -36,6 +38,8 @@ namespace UI.PlayerScreen
         private void saveNames(List<string> names)
         {
             _playerNames = names;
+            for (int i = 0; i < names.Count; i++)
+                _playerScores.Add(0);
         }
     }
 }

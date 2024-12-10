@@ -1,3 +1,4 @@
+using Events.GameEvents;
 using Events.GameEvents.Typed;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace Turn
     public class TurnSystem : MonoBehaviour
     {
         [SerializeField] private StringGameEvent setNextTurnEvent;
+        [SerializeField] private IntGameEvent onWrongAnswer;
+        [SerializeField] private GameEvent onPlayersScoresUpdated;
         private PlayerInfoHolder _playerInfoHolder;
         private List<string> _players = new();
         private int _currentPlayerIndex;
@@ -20,6 +23,7 @@ namespace Turn
         private void Awake()
         {
             _playerInfoHolder = PlayerInfoHolder.Instance;
+            onWrongAnswer.AddListener(UpdatePlayerScores);
         }
 
         private void Start()
@@ -42,6 +46,12 @@ namespace Turn
         public void SetTurn()
         {
             StartCoroutine(invokeAfterSeconds(2));
+        }
+
+        private void UpdatePlayerScores(int scoreToAdd)
+        {
+            _playerInfoHolder.PlayerScores[_currentPlayerIndex] += scoreToAdd;
+            onPlayersScoresUpdated.Invoke();
         }
 
         private IEnumerator invokeAfterSeconds(float seconds)
