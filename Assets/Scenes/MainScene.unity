@@ -651,7 +651,7 @@ GameObject:
   - component: {fileID: 902345378}
   - component: {fileID: 902345377}
   m_Layer: 5
-  m_Name: ScoreText
+  m_Name: MinusPointsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
