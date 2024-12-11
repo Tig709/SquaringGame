@@ -359,14 +359,16 @@ MonoBehaviour:
     edit this name. When you press on the \u201Cx\u201D button, the name will be
     removed. When you have at least 2 players, you can start the game using the start
     game button.\r\n\r\nA player\u2019s turn consist of turning a card around next
-    to an open card by clicking on the card. Then the player has to say if that card
-    is higher or lower then the open card or if there are 2 open cards, saying if
-    it is in between or outside the open cards. If there are 3 open cards the game
-    will automatically select the easiest option (it is also shown as text). When
-    a player gives the right answer 2 times in a row the next player is. When the
-    player gives a wrong answer all the connected open cards will be counted towards
-    his minus points. All the cards will be send to the discard stack and new closed
-    cards will be laid down. \r\n\r\nThe goal of the game is to turn every card around.\r\n"
+    to an open card by clicking on the card. Be carefull as once you clicked you
+    can not choose a new card. Then the player has to say if that card is higher
+    or lower then the open card. If there are 2 or 3 open cards the player has to
+    say if it is in between or outside the open cards. If there are 3 open cards
+    the game will automatically select the easiest option (it is also shown as text).
+    When a player gives the right answer 2 times in a row the next player is. When
+    the player gives a wrong answer all the connected open cards will be counted
+    towards his minus points. All the cards will be send to the discard stack and
+    new closed cards will be laid down. \r\n\r\nThe goal of the game is to turn every
+    card around.\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
