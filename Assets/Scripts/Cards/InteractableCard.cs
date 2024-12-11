@@ -9,8 +9,6 @@ namespace Cards
         [SerializeField] private GameObjectGameEvent onCardClickedEventHL;
         [SerializeField] private GameObjectGameEvent onCardClickedEventIO;
 
-        //TODO make event for clickable now
-        private bool _clickableNow = true; // used if card outside of stack and outside of non clickable moment for example when text is on screen
         private bool _turnedAround; // used to turn card around so that a card can not be turned multiple times
         private int _neighbourCount; //used to make cards only clickable when neigbouring
 
@@ -27,7 +25,7 @@ namespace Cards
 
         private void OnMouseDown()
         {
-            if (!_clickableNow || _turnedAround || _neighbourCount == 0 || EventSystem.current.IsPointerOverGameObject())
+            if (_turnedAround || _neighbourCount == 0 || EventSystem.current.IsPointerOverGameObject())
                 return;
 
             OnCardClicked();
