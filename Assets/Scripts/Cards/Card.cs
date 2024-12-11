@@ -52,6 +52,16 @@ namespace Cards
         /// </summary>
         private void OnValidate()
         {
+            SetTextAndColor();
+        }
+
+        private void Start()
+        {
+            SetTextAndColor();
+        }
+
+        private void SetTextAndColor()
+        {
             switch (selectedSymbol)
             {
                 case AllowedSymbols.Hearts:

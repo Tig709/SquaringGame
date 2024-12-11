@@ -15,7 +15,7 @@ namespace Cards
         [SerializeField] private GameEvent stackReadyEvent;
         [SerializeField] private GameEvent thisStackEmptyEvent;
         [SerializeField] private GameObjectListGameEvent pushCardsEvent;
-
+        [SerializeField] private List<Card> cards;
         private Stack<Card> _cards = new();
 
         private void Awake()
@@ -26,7 +26,7 @@ namespace Cards
 
         private void Start()
         {
-            foreach (Card card in gameObject.GetComponentsInChildren<Card>())
+            foreach (Card card in cards)
                 _cards.Push(card);
 
             ShuffleStack();
