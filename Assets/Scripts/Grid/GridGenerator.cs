@@ -25,6 +25,7 @@ namespace Grid
 
         private List<GameObject> _gridTiles = new List<GameObject>();
         private List<PlayableTile> _playableTiles = new List<PlayableTile>();
+        private bool _buildGrid = true;
         public List<GameObject> GridTiles => _gridTiles;
         public List<PlayableTile> PlayableTiles => _playableTiles;
 
@@ -37,7 +38,16 @@ namespace Grid
             _gridTileTransform = playableTile.transform;
         }
 
-        private void Start()
+        private void Update()
+        {
+            if (!_buildGrid || !gridData.Start)
+                return;
+
+            _buildGrid = false;
+            CreateGrid();
+        }
+
+        private void CreateGrid()
         {
             // Instantiates the right grid tiles at the positions defined in gridData,
             // determines start and end position of playables

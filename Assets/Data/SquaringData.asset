@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0087af8ca70724e840dd9ec53a09fb, type: 3}
   m_Name: SquaringData
   m_EditorClassIdentifier: 
+  gm: {fileID: 11400000, guid: 45730dfbee0eacb44b7d8ab468ea128d, type: 2}
   playableIndices:
   - {x: 0, y: 0}
   - {x: 1, y: 0}
@@ -48,3 +49,4 @@ MonoBehaviour:
   - {x: 6, y: 6}
   xGridSize: 7
   yGridSize: 7
+  start: 0

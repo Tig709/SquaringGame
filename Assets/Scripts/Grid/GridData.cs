@@ -1,3 +1,4 @@
+using Events.GameEvents;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,13 +15,15 @@ namespace Grid
             Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
         };
 
-        [Tooltip("The indices of all playable cells for a card game")] 
+        [Tooltip("The indices of all playable cells for a card game")]
         [SerializeField] private List<Vector2Int> playableIndices;
-        
+
         [Header("Grid Settings")]
-        [Tooltip("The size of a grid")] 
+        [Tooltip("The size of a grid")]
         [SerializeField] private int xGridSize;
         [SerializeField] private int yGridSize;
+
+        private bool _start;
 
         public GridTileTypes[,] GeneratedGrid { get; private set; }
 
@@ -28,11 +31,23 @@ namespace Grid
 
         public int YGridSize => yGridSize;
 
-        public Vector2Int PlayableStartIndex => playableIndices[0]; 
+        public Vector2Int PlayableStartIndex => playableIndices[0];
 
-        public Vector2Int PlayableEndIndex => playableIndices[^1]; 
+        public Vector2Int PlayableEndIndex => playableIndices[^1];
+
+        public bool Start => _start;
 
         private void OnValidate()
+        {
+            BuildGrid();
+        }
+
+        private void OnEnable()
+        {
+            BuildGrid();
+        }
+
+        private void BuildGrid()
         {
             GeneratedGrid = new GridTileTypes[xGridSize, yGridSize];
 
@@ -55,7 +70,7 @@ namespace Grid
             }
         }
 
-        // Marks cells around the playable cells (which aren't paths) as unused
+        // Marks cells around the playable cells (which aren't playable cells) as unused
         private void MarkUnused()
         {
             foreach (var playableIndex in playableIndices)
@@ -77,6 +92,7 @@ namespace Grid
                     }
                 }
             }
+            _start = true;
         }
     }
 }
