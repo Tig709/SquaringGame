@@ -1,5 +1,6 @@
 using Events.GameEvents.Typed;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Cards
 {
@@ -26,7 +27,7 @@ namespace Cards
 
         private void OnMouseDown()
         {
-            if (!_clickableNow || _turnedAround || _neighbourCount == 0)
+            if (!_clickableNow || _turnedAround || _neighbourCount == 0 || EventSystem.current.IsPointerOverGameObject())
                 return;
 
             OnCardClicked();
